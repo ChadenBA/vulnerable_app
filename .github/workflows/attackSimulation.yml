@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Simulate SQL Injection Attack
+      - name: Simulate NoSQL Injection Attack
         run: |
           echo "Executing NoSQL Injection Attack..."
           curl -X POST https://9961-196-184-98-202.ngrok-free.app/login        -H "X-Simulated-By: GitHubAction" \
@@ -35,10 +35,8 @@ jobs:
 
 
 
-      - name: Run Snyk Security Scan
+      - name: Run Snyk test
         uses: snyk/actions/node@master
-        with:
-          args: test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
