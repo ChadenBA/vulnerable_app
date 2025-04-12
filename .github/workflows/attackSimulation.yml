@@ -31,12 +31,7 @@ jobs:
           curl -s -X POST https://9961-196-184-98-202.ngrok-free.app/login       -H "X-Simulated-By: GitHubAction" \
           -d 'username[$ne]=null&password[$ne]=null' &
           done
-          wait
-
-
-
-      - name: Run Snyk test
-    
+          wait    
 
       - name: Run Gitleaks to Detect Secrets
         uses: gitleaks/gitleaks-action@v2
